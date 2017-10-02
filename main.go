@@ -8,10 +8,8 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	body, _ := ioutil.ReadAll(r.Body)
-	fmt.Fprintf(w, "This is working! %s\n", r.RequestURI)
-	fmt.Fprintf(w, "Second line! %s\n", body)
-	fmt.Fprintf(w, "Third line! %s", r.Header)
+	SaveData(r)
+	fmt.Fprint(w, "Message Acknowledged")
 	//Grab variables: headers, multipart form payload, URI
 }
 
@@ -21,4 +19,14 @@ func main() {
 	r.HandleFunc("/{.*}", HomeHandler)
 
 	http.ListenAndServe("0.0.0.0:8080", r)
+}
+
+//Takes an incoming request and stores it somehow
+// in this case I'll be using mgo
+func SaveData(r *http.Request) {
+	body, _ := ioutil.ReadAll(r.Body)
+	fmt.Printf("This is working! %s\n", r.RequestURI)
+	fmt.Printf( "Second line! %s\n", body)
+	fmt.Printf( "Third line! %s", r.Header)
+
 }
